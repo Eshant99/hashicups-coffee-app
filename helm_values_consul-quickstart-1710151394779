@@ -1,0 +1,41 @@
+global:
+  enabled: false
+  name: consul
+  datacenter: consul-quickstart-1710151394779
+  image: "hashicorp/consul-enterprise:1.14.11-ent"
+  acls:
+    manageSystemACLs: true
+    bootstrapToken:
+      secretName: consul-quickstart-1710151394779-hcp
+      secretKey: bootstrapToken
+  tls:
+    enabled: true
+
+
+externalServers:
+  enabled: true
+  hosts: ["consul-quickstart-1710151394779.consul.84a48f4a-c37d-4644-8530-eced6584321a.aws.hashicorp.cloud"]
+  httpsPort: 443
+  useSystemRoots: true
+  k8sAuthMethodHost: https://E2292ED59FF3871FD49FD47FAE3A346F.gr7.us-east-2.eks.amazonaws.com
+
+server:
+  enabled: false
+
+connectInject:
+  transparentProxy:
+    defaultEnabled: true
+  enabled: true
+  default: true
+  consulNode:
+    meta:
+      terraform-module: "hcp-eks-client"
+
+ingressGateways:
+  enabled: true
+  gateways:
+    - name: ingress-gateway
+      service:
+        type: LoadBalancer
+        ports:
+        - port: 8080
